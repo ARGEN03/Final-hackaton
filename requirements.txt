@@ -10,3 +10,4 @@ celery
 redis
 djangorestframework_simplejwt
 requests
+gunicorn

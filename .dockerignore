@@ -1,0 +1,8 @@
+venv/
+docker-compose.yml
+Dockerfile
+env_example
+Makfile
+.git
+.gitignore
+.idea/
