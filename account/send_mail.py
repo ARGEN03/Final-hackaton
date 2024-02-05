@@ -14,3 +14,15 @@ def send_confirmation_email(email, code):
         recipient_list
     )
    
+def send_password_reset_email(email, reset_link):
+    subject = 'Сброс и восстановление пароля'
+    message = f'Для сброса пароля перейдите по ссылке: {reset_link}. Если вы не запрашивали сброс пароля, просто проигнорируйте данное письмо.'
+    from_email = 'fitstreety@gmail.com'
+    recipient_list = [email]
+
+    send_mail(
+        subject, 
+        message, 
+        from_email, 
+        recipient_list
+    )
