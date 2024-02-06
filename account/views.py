@@ -24,7 +24,7 @@ class RegistrationView(APIView):
         user = serializers.save()
         if user:
             try:
-                send_confirmation_email_task.delay(user.email, user.activation_code)
+                send_confirmation_email_task.delay(request, user.email, user.activation_code)
             except:
                 return Response('Письмо не отправлено', status=400)
             
