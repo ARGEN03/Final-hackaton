@@ -10,6 +10,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+import uuid
 
 from .serializers import RegisterSerializer, LogOutSerializer, UserSerializer
 from .tasks import send_confirmation_email_task, send_password_reset_email_task
@@ -22,39 +23,34 @@ class RegistrationView(APIView):
 
     @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
-        serializers = self.serializer_class(data=request.data)
-        serializers.is_valid(raise_exception=True)
-        user = serializers.save()
-        if user:
-            activation_url = request.build_absolute_uri(f'/account/activate/?u={user.activation_code}')
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user.activation_code = uuid.uuid4()
+            user.save()
+
+            activation_path = f'/api/account/activate/{user.activation_code}/'
+            activation_url = request.build_absolute_uri(activation_path)
+            
             try:
                 send_confirmation_email_task.delay(user.email, activation_url)
+                return Response('Письмо с активацией отправлено', status=201)
             except:
-                return Response('Письмо не отправлено', status=400)
-            
-        return Response('Письмо отправлено', status=201)
-    
+                return Response('Ошибка отправки письма', status=400)
+        else:
+            return Response(serializer.errors, status=400)
+        
 class ActivationView(APIView):
-    @swagger_auto_schema(
-        operation_description="Активация учетной записи пользователя по коду активации",
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'activation_code': openapi.Schema(type=openapi.TYPE_STRING, description='Код активации')
-            }
-        ),
-        responses={200: 'Активация прошла успешно', 400: 'Неверный запрос'}
-    )
-    def post(self, request):
-        activation_code = request.data.get('activation_code')
-        if not activation_code:
-            return Response('Нет кода активации', status=400)
-        user = get_object_or_404(User, activation_code=activation_code)
-        user.is_active = True
-        user.activation_code = ''
-        user.save()
-        return Response('Активация прошла успешно', status=200)
-
+    permission_classes = [permissions.AllowAny]
+    def get(self, request, activation_code):
+        try:
+            user = User.objects.get(activation_code=activation_code)
+            user.is_active = True
+            user.activation_code = ''
+            user.save()
+            return Response({'message': 'Account activated successfully'})
+        except User.DoesNotExist:
+            return Response({'error': 'Invalid or expired token'}, status=404)
 class LogoutView(APIView):
     serializer_class = LogOutSerializer
     permission_classes = [permissions.IsAuthenticated]
