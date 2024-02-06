@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -8,9 +9,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 
-from .serializers import RegisterSerializer, LogOutSerializer
+from .serializers import RegisterSerializer, LogOutSerializer, UserSerializer
 from .tasks import send_confirmation_email_task, send_password_reset_email_task
-
+from .permissions import IsOwnerOrReadOnly
 
 User = get_user_model()
 
@@ -90,8 +91,16 @@ class PasswordResetConfirmView(APIView):
         else:
             return Response('Неверная ссылка', status=400)
 
-        
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated(), IsOwnerOrReadOnly()]
+        
+        
         
 
 
