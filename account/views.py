@@ -8,6 +8,8 @@ from rest_framework import permissions
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 from .serializers import RegisterSerializer, LogOutSerializer, UserSerializer
 from .tasks import send_confirmation_email_task, send_password_reset_email_task
@@ -18,6 +20,7 @@ User = get_user_model()
 class RegistrationView(APIView):
     serializer_class = RegisterSerializer
 
+    @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
         serializers = self.serializer_class(data=request.data)
         serializers.is_valid(raise_exception=True)
@@ -32,6 +35,16 @@ class RegistrationView(APIView):
         return Response('Письмо отправлено', status=201)
     
 class ActivationView(APIView):
+    @swagger_auto_schema(
+        operation_description="Активация учетной записи пользователя по коду активации",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'activation_code': openapi.Schema(type=openapi.TYPE_STRING, description='Код активации')
+            }
+        ),
+        responses={200: 'Активация прошла успешно', 400: 'Неверный запрос'}
+    )
     def post(self, request):
         activation_code = request.data.get('activation_code')
         if not activation_code:
@@ -55,6 +68,22 @@ class LogoutView(APIView):
 class PasswordResetRequestView(APIView):
     permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(
+        operation_summary="Запрос на сброс пароля",
+        operation_description="Отправляет пользователю ссылку для сброса пароля на указанный email.",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'email': openapi.Schema(type=openapi.TYPE_STRING, description="Email пользователя, который запрашивает сброс пароля.")
+            },
+            required=['email']
+        ),
+        responses={
+            200: openapi.Response(description="Ссылка для сброса пароля отправлена на указанный email."),
+            400: openapi.Response(description="Поле email не может быть пустым или другая ошибка в запросе."),
+            404: openapi.Response(description="Пользователь не найден.")
+        }
+    )
     def post(self, request):
         email = request.data.get('email')
         if not email:
@@ -72,6 +101,8 @@ class PasswordResetRequestView(APIView):
     
 class PasswordResetConfirmView(APIView):
     permission_classes = [permissions.AllowAny]
+
+    
 
     def post(self, request, uidb64, token, *args, **kwargs):
         try:
