@@ -1,7 +1,6 @@
 from django.core.mail import send_mail
 
-def send_confirmation_email(request, email, code):
-    activation_url = request.build_absolute_uri(f'/account/activate/?u={code}')
+def send_confirmation_email(email, activation_url):
     subject = 'Активация аккаунта'
     message = f'Для активации аккаунта перейдите по ссылке: {activation_url}'
     from_email = 'fitstreety@gmail.com'

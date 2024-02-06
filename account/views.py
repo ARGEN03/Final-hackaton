@@ -23,8 +23,9 @@ class RegistrationView(APIView):
         serializers.is_valid(raise_exception=True)
         user = serializers.save()
         if user:
+            activation_url = request.build_absolute_uri(f'/account/activate/?u={user.activation_code}')
             try:
-                send_confirmation_email_task.delay(request, user.email, user.activation_code)
+                send_confirmation_email_task.delay(user.email, activation_url)
             except:
                 return Response('Письмо не отправлено', status=400)
             
