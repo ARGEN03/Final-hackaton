@@ -35,6 +35,11 @@ urlpatterns = [
     path('api/account/', include('account.urls')),
     path('api/genre/', include('genre.urls')),
     path('api/movie/', include('movie.urls')),
+    path('api/comment/', include('comment.urls')),
+    path('api/favorite/', include('favorite.urls')),
+    path('api/plan/', include('plan.urls')),
+    path('api/viewed/', include('viewed.urls')),
     path('api/docs/', schema_view.with_ui('swagger')),
+
 ]
 
