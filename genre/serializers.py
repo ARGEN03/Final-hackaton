@@ -1,8 +1,15 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import Genre
 
 
-class GenreSerializer(ModelSerializer):
+
+class GenreSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
     class Meta:
         model = Genre
-        fields = '__all__'
+        fields = ['id','name', 'children', 'slug', 'parent']
+
+    def get_children(self, obj):
+        children = obj.children.all()
+        return [{'name': child.name} for child in children]
