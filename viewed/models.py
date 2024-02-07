@@ -13,3 +13,5 @@ class Viewed(models.Model):
 
     class Meta:
         unique_together = ['owner', 'movie']
+        verbose_name = 'Просмотрены'
+        verbose_name_plural = 'Просмотренные'

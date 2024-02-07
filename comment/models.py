@@ -18,3 +18,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comments'
     )
+
+    class Meta:
+        verbose_name = 'Комментраий'
+        verbose_name_plural = 'Комментраии'
+

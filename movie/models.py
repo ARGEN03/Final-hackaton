@@ -10,6 +10,7 @@ class Movie(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     title = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='products', null=True)
     video = models.FileField(upload_to='videos/', null=True, blank=True)
     content = models.TextField(blank=True, null=True)
@@ -20,5 +21,5 @@ class Movie(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
+        verbose_name = 'Фильм'
+        verbose_name_plural = 'Фильм'

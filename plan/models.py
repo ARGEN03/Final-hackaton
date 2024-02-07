@@ -13,3 +13,5 @@ class Plan(models.Model):
 
     class Meta:
         unique_together = ['owner', 'movie']
+        verbose_name = 'Планы'
+        verbose_name_plural = 'Планы'

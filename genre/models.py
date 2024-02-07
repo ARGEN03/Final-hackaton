@@ -16,6 +16,6 @@ class Genre(models.Model):
         return self.name
     
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанры"
 
