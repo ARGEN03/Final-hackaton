@@ -12,3 +12,4 @@ djangorestframework_simplejwt
 requests
 gunicorn
 django-cors-headers
+django-autoslug
