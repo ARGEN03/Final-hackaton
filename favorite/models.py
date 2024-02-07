@@ -13,3 +13,5 @@ class Favorite(models.Model):
 
     class Meta:
         unique_together = ['owner', 'movie']
+        verbose_name = 'Избарнные'
+        verbose_name_plural = 'Избранные'
