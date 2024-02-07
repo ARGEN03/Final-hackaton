@@ -51,7 +51,14 @@ ADDITIONAL_APPS = [
 ]
 
 OWN_APPS = [
-    'account'
+    'account',
+    'genre',
+    'movie',
+    'plan',
+    'favorite',
+    'comment',
+    'rating',
+    'viewed',
 ]
 
 INSTALLED_APPS = ADDITIONAL_APPS + OWN_APPS + DJANGO_APPS
