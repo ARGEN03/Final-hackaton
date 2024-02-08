@@ -10,6 +10,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.shortcuts import render
 import uuid
 
 from .serializers import RegisterSerializer, LogOutSerializer, UserSerializer
@@ -48,9 +49,13 @@ class ActivationView(APIView):
             user.is_active = True
             user.activation_code = ''
             user.save()
-            return Response({'message': 'Account activated successfully'})
+            context = {'message': 'Account activated successfully'}
+            return render(request, 'activation_success.html', context)
+            # return Response({'message': 'Account activated successfully'})
         except User.DoesNotExist:
-            return Response({'error': 'Invalid or expired token'}, status=404)
+            context = {'error': 'Invalid or expired token'}
+            return render(request, 'activation_error.html', context, status=404)
+            # return Response({'error': 'Invalid or expired token'}, status=404)
 class LogoutView(APIView):
     serializer_class = LogOutSerializer
     permission_classes = [permissions.IsAuthenticated]
