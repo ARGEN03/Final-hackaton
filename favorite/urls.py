@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import FavoriteViewSet
-
-
-router = DefaultRouter()
-router.register('', FavoriteViewSet)
+from django.urls import path
+from .views import FavoriteListCreateAPIView, FavoriteRetrieveDestroyAPIView
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('favorite/', FavoriteListCreateAPIView.as_view(), name='viewed-list-create'),
+    path('favorite/<int:pk>/',FavoriteRetrieveDestroyAPIView.as_view(), name='viewed-retrieve-destroy'),
 ]

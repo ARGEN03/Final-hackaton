@@ -8,4 +8,6 @@ router.register('', CommentViewSet, basename='comment')
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('comments/<int:pk>/like/', CommentViewSet.as_view({'post': 'like'}), name='comment-like')
+    
 ]
