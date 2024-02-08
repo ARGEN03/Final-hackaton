@@ -34,6 +34,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split()
 # Application definition
 
 DJANGO_APPS = [
+    'jazzmin',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -269,3 +270,77 @@ CACHES = {
         "LOCATION": os.path.join(BASE_DIR, "config_cache"),
     }
 }
+# JAZZMIN_UI_TWEAKS = {  
+#     "theme": "darkly",  
+#     "sticky_actions": True,  
+#     "actions_sticky_top": True,  
+# }  
+
+# JAZZMIN_SETTINGS = {
+#     "site_title": " My favorite movie AdminPanel",
+#     "site_header": "My favorite movie",
+#     "site_logo": "images/logo.png",  # Путь к вашему логотипу
+#     "site_logo_classes": "img-circle",
+#     "welcome_sign": "Добро пожаловать в My favorite movi",
+#     "show_sidebar": True,
+#     "navigation_expanded": True,
+#     "hide_apps": ["social_django", "auth"],
+#     "usermenu_links": [
+#         {
+#             "name": "Помощь",
+#             "url": "https://www.google.com/",
+#             "new_window": True
+#         },
+#         {
+#             "model": "auth.user"
+#         }
+#     ],
+#     "topmenu_links": [
+#         # Ссылки, отображаемые в верхнем меню
+#         {"name": "Домой", "url": "admin:index",
+#          "permissions": ["auth.view_user"]},
+#         {"name": "Поддержка", "url": "https://www.google.com/",
+#          "new_window": True},
+#     ],
+#     "show_ui_builder": True,
+#     "changeform_format": "horizontal_tabs",
+#     # Используйте горизонтальные вкладки на страницах редактирования
+#     "changeform_format_overrides": {"auth.user": "collapsible",
+#                                     "auth.group": "vertical_tabs"},
+#     "show_icons": True,  # Показывать иконки в меню
+#     "default_theme": "cerulean",  # Используйте тему Cerulean из Bootswatch
+#     "related_modal_active": True,
+#     # Включить модальные окна для связанных объектов
+# }
+
+JAZZMIN_UI_TWEAKS = {  
+    "theme": "slate",  # Устанавливаем тему Flatly
+    "sticky_actions": True,  # Включаем закрепленные действия
+    "actions_sticky_top": True,  # Закрепляем действия вверху
+} 
+
+JAZZMIN_SETTINGS = {
+    "site_brand": "Admin",  # Название сайта
+    "welcome_sign": "Спасибо Тима за Jazzmin.",  # Приветственное сообщение
+    "copyright": "Acme Library Ltd",  # Копирайт
+    "search_model": ["auth.User", "auth.Group"],  # Модели для поиска
+    "show_sidebar": True,  # Показывать боковую панель
+    "navigation_expanded": True,  # Развернутая навигация
+    "icons": {  # Иконки
+        "auth": "fas fa-users-cog",  # Иконка для раздела "auth"
+        "auth.user": "fas fa-user",  # Иконка для модели "auth.user"
+        "auth.Group": "fas fa-users",  # Иконка для модели "auth.Group"
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",  # Иконка для родительских элементов по умолчанию
+    "default_icon_children": "fas fa-circle",  # Иконка для дочерних элементов по умолчанию
+    "related_modal_active": False,  # Активировать модальные окна для связанных объектов
+    "use_google_fonts_cdn": True,  # Использовать CDN Google Fonts
+    "show_ui_builder": False,  # Показывать строитель пользовательского интерфейса
+    "changeform_format": "horizontal_tabs",  # Формат страницы редактирования
+    "changeform_format_overrides": {  # Переопределение формата страницы редактирования для определенных моделей
+        "auth.user": "collapsible",  # Использовать сворачиваемые вкладки для модели "auth.user"
+        "auth.group": "vertical_tabs",  # Использовать вертикальные вкладки для модели "auth.group"
+    },
+    "language_chooser": False,  # Показывать выбор языка
+}
+
