@@ -21,9 +21,9 @@ from drf_yasg.views import get_schema_view
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Kino ",
+        title="Kino",
 
-        description="online backend api's for shop",
+        description="online backend api's for KinoPoisk",
 
         default_version="v1",
     ),

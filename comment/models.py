@@ -23,3 +23,19 @@ class Comment(models.Model):
         verbose_name = 'Комментраий'
         verbose_name_plural = 'Комментраии'
 
+class Like(models.Model):
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'comment')
+

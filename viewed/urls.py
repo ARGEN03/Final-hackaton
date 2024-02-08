@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import ViewedViewSet
-
-
-router = DefaultRouter()
-router.register('', ViewedViewSet)
+from django.urls import path
+from .views import ViewedListCreateAPIView, ViewedRetrieveDestroyAPIView
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('view/', ViewedListCreateAPIView.as_view(), name='viewed-list-create'),
+    path('view/<int:pk>/',ViewedRetrieveDestroyAPIView.as_view(), name='viewed-retrieve-destroy'),
 ]

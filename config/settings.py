@@ -97,24 +97,28 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        }
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'simple',
+            'filename': 'information.log',
+        },
     },
     'loggers': {
         'django.db.backends': {
             'level': 'DEBUG',
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],  # Добавьте обработчик 'file' для журналирования в файл
         },
         'django.request': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],  # Добавьте обработчик 'file' для журналирования в файл
             'propagate': True,
             'level': 'DEBUG',
         }
     }
 }
+
 
 
 ROOT_URLCONF = 'config.urls'
@@ -258,3 +262,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.path.join(BASE_DIR, "config_cache"),
+    }
+}

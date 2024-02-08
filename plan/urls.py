@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import PlanViewSet
-
-
-router = DefaultRouter()
-router.register('', PlanViewSet)
+from django.urls import path
+from .views import PlanListCreateAPIView, PlanRetrieveDestroyAPIView
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('plan/', PlanListCreateAPIView.as_view(), name='viewed-list-create'),
+    path('plan/<int:pk>/',PlanRetrieveDestroyAPIView.as_view(), name='viewed-retrieve-destroy'),
 ]
