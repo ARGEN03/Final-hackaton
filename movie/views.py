@@ -10,6 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rating.serializers import RatingSerializer
 from rest_framework import status
+from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class StandartResultPagination(PageNumberPagination):
@@ -26,6 +27,10 @@ class MovieViewSet(ModelViewSet):
     ordering_fields = ['release_at', 'title', 'director']
     pagination_class = StandartResultPagination
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated(), IsOwnerOrReadOnly()]
 
     @action(detail=True, methods=['POST', 'DELETE', 'PUT'], permission_classes=[permissions.IsAuthenticated])
     def rating(self, request, pk=None):
@@ -56,12 +61,6 @@ class MovieViewSet(ModelViewSet):
             except Rating.DoesNotExist:
                 return Response("Рейтинг не найден", status=status.HTTP_404_NOT_FOUND)
     
-    def get_permissions(self):
-        if self.action == 'rating':
-            return [permissions.IsAuthenticated()]
-        elif self.request.method == 'GET':
-            return [permissions.AllowAny()]
-        else:
-            return [permissions.IsAdminUser()]
+
 
 

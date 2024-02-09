@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Movie
 from genre.models import Genre
+from genre.serializers import GenreSerializer
 from rating.serializers import RatingSerializer
 from comment.serializers import CommentSerializer
 from django.db.models import Avg
@@ -9,7 +10,7 @@ from django.db.models import Avg
 class MovieSerializer(serializers.ModelSerializer):
     owner_email = serializers.ReadOnlyField(source='owner.email')
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())  # Используем HiddenField для автоматической установки owner_id
-    genre = serializers.PrimaryKeyRelatedField(required=True, queryset=Genre.objects.all()) 
+    genre = GenreSerializer(many=True)
     comments = serializers.SerializerMethodField(method_name='get_comments')
 
 
@@ -24,7 +25,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = ['id', 'title', 'owner_email', 'owner', 'genre', 'comments','content', 'image', 'video']
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
