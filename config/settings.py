@@ -264,12 +264,12 @@ SIMPLE_JWT = {
 }
 
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": os.path.join(BASE_DIR, "config_cache"),
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": os.path.join(BASE_DIR, "config_cache"),
+#     }
+# }
 # JAZZMIN_UI_TWEAKS = {  
 #     "theme": "darkly",  
 #     "sticky_actions": True,  
@@ -314,7 +314,7 @@ CACHES = {
 # }
 
 JAZZMIN_UI_TWEAKS = {  
-    "theme": "slate",  # Устанавливаем тему Flatly
+    "theme": "solar",  # Устанавливаем тему Flatly
     "sticky_actions": True,  # Включаем закрепленные действия
     "actions_sticky_top": True,  # Закрепляем действия вверху
 } 

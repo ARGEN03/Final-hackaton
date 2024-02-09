@@ -13,4 +13,5 @@ requests
 gunicorn
 django-cors-headers
 django-autoslug
+python-slugify
 django-jazzmin
