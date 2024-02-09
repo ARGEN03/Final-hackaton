@@ -24,4 +24,4 @@ def send_password_reset_email(email, reset_link):
         message, 
         from_email, 
         recipient_list
-    )
+    )   
