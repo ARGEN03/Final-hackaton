@@ -10,9 +10,12 @@ from django.db.models import Avg
 class MovieSerializer(serializers.ModelSerializer):
     owner_email = serializers.ReadOnlyField(source='owner.email')
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())  # Используем HiddenField для автоматической установки owner_id
-    genre = GenreSerializer(many=True)
+    # genre = GenreSerializer(many=True)
+    genre = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField(method_name='get_comments')
 
+    def get_genre(self, obj):
+        return obj.genre.slug if obj.genre else None
 
     def get_comments(self, instance):
         comments = instance.comments.all()
