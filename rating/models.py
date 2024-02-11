@@ -19,7 +19,6 @@ class Rating(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='ratings')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
     rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
-    created_at = models.DateField(auto_now_add=True)
     
     class Meta:
         unique_together = ['owner','movie']

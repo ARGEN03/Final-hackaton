@@ -8,8 +8,8 @@ from .models import Movie
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner_email')  # Отображение имени пользователя владельца
-    search_fields = ('title', 'director', 'release_at',)
-    list_filter = ('title', 'director', 'release_at',)
+    search_fields = ('title', 'director', 'release_at', 'genre_slug')
+    list_filter = ('title', 'director', 'release_at','genre')
     readonly_fields = ('owner',)  # Добавляем это поле в readonly_fields
 
     def save_model(self, request, obj, form, change):

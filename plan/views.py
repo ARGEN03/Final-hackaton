@@ -14,7 +14,6 @@ class PlanListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = PlanSerializer
     permission_classes = [IsOwnerAndAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['movie__title']
     search_fields = ['movie__title'] 
 
     def perform_create(self, serializer):
