@@ -81,6 +81,13 @@ services:
     networks:
       - backend
 
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile.bot
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+
 volumes:
   postgres_data:
   static_volume:

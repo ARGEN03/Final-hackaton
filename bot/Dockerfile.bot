@@ -1,0 +1,16 @@
+FROM python:3.10
+
+ENV PYTHONIOENCODING UTF-8
+ENV TZ=Asia/Bishkek
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /bot
+
+COPY bot/requirements_bot.txt ./
+
+RUN pip install --no-cache-dir -r requirements_bot.txt
+
+COPY bot/ .
+
+CMD ["python3", "telegram_bot.py"]
