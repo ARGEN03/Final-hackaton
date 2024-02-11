@@ -7,6 +7,7 @@ from comment.serializers import CommentSerializer
 from django.db.models import Avg
 from plan.models import Plan
 from viewed.models import Viewed
+from favorite.models import Favorite
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -14,32 +15,42 @@ class MovieSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())  # Используем HiddenField для автоматической установки owner_id
     genre = serializers.SerializerMethodField(method_name='get_genre')
     comments = serializers.SerializerMethodField(method_name='get_comments')
+    favorite = serializers.SerializerMethodField(method_name='get_favorite')
     planned = serializers.SerializerMethodField(method_name='get_planned')
     watched = serializers.SerializerMethodField(method_name='get_watched')
-
-    # def get_watched(self, obj):
-    #     owner = self.context['request'].user
-    #     try:
-    #         Viewed.objects.filter(movie=obj).exists()
-    #         return 'Просмотрен'
-    #     except:
-    #         return 'Нет'
-
-    # def get_planned(self, obj):
-    #     owner = self.context['request'].user
-    #     try:
-    #         Plan.objects.filter(movie=obj).exists()
-    #         return 'Запланирован'
-    #     except:
-    #         return 'Нет'
+    
 
     def get_planned(self, obj):
-        # user = self.context['request'].user
-        return Plan.objects.filter(movie=obj).exists()
+        try:
+            if Plan.objects.filter(movie=obj).exists():
+                return "Planned"
+            else:
+                return "Empty"
+            
+        except Exception as e:
+            return "Ошибка: {}".format(str(e))
     
     def get_watched(self, obj):
-        # user = self.context['request'].user
-        return Viewed.objects.filter(movie=obj).exists()
+        try:
+            if Viewed.objects.filter(movie=obj).exists():
+                return "Watched"
+            else:
+                return "Empty"
+            
+        except Exception as e:
+            return "Ошибка: {}".format(str(e))
+        
+    def get_favorite(self, obj):
+        try:
+            if Favorite.objects.filter(movie=obj).exists():
+                return "My favorite"
+            else:
+                return "Empty"
+            
+        except Exception as e:
+            return "Ошибка: {}".format(str(e))
+
+        
 
     def get_genre(self, obj):
         return obj.genre.slug if obj.genre else None
@@ -55,7 +66,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'owner_email', 'owner', 'genre', 'comments','content', 'image', 'video','planned', 'watched']
+        fields = ['id', 'title', 'owner_email', 'owner', 'genre', 'comments','content', 'image', 'video','planned', 'watched', 'favorite']
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
