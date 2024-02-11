@@ -8,6 +8,7 @@ class ViewedSerializer(serializers.ModelSerializer):
 
     def get_movie_title(self, obj):
         return obj.movie.title if obj.movie else None
+    
 
     class Meta:
         model = Viewed
