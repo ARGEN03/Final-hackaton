@@ -7,8 +7,8 @@ User = get_user_model()
 # Create your models here.
 
 class Plan(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plans')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='plans')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -3,7 +3,7 @@ from .models import Plan
 # Register your models here.
 class PlanAdmin(admin.ModelAdmin):
     list_display = ('movie', 'owner_email')  # Отображение имени пользователя владельца
-    # search_fields = ('title', 'director', 'release_at',)
+    search_fields = ['movie__title']
     # list_filter = ('title', 'director', 'release_at',)
     readonly_fields = ('owner',)  # Добавляем это поле в readonly_fields
 

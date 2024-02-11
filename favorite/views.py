@@ -8,14 +8,16 @@ from django.db import IntegrityError
 from django.contrib.auth.models import AnonymousUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from movie.models import Movie
 
 class FavoriteListCreateAPIView(generics.ListCreateAPIView):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     permission_classes = [IsOwnerAndAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['movie__title']
     search_fields = ['movie__title'] 
+
+
 
     def perform_create(self, serializer):
         owner = self.request.user

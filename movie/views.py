@@ -22,15 +22,10 @@ class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     filter_backends = [SearchFilter, DjangoFilterBackend]
-    search_fields = ['title', 'director']
-    filterset_fields = ['director','title','release_at']
-    ordering_fields = ['release_at', 'title', 'director']
+    search_fields = ['title', 'director', 'genre__slug']
+    filterset_fields = ['director','title','release_at', 'genre']
+    ordering_fields = ['release_at', 'title', 'director', 'genre__slug']
     pagination_class = StandartResultPagination
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated(), IsOwnerOrReadOnly()]
 
     @action(detail=True, methods=['POST', 'DELETE', 'PUT'], permission_classes=[permissions.IsAuthenticated])
     def rating(self, request, pk=None):
@@ -60,7 +55,11 @@ class MovieViewSet(ModelViewSet):
                 return Response(serializer.data)
             except Rating.DoesNotExist:
                 return Response("Рейтинг не найден", status=status.HTTP_404_NOT_FOUND)
-    
+            
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
 
 
