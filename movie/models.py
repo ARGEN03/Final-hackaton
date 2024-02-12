@@ -10,7 +10,7 @@ class Movie(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movie')
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
-    genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='movie', null=True)  # Указываем поле для связи
+    genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='movie', null=True)
     video = models.FileField(upload_to='videos/', null=True, blank=True)
     content = models.TextField(blank=True, null=True)
     director = models.CharField(max_length=150, null=True)

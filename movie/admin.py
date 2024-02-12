@@ -7,10 +7,10 @@ from django.contrib.auth.models import User
 from .models import Movie
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner_email')  # Отображение имени пользователя владельца
+    list_display = ('title', 'owner_email') 
     search_fields = ('title', 'director', 'release_at', 'genre__slug')
     list_filter = ('title', 'director', 'release_at','genre')
-    readonly_fields = ('owner',)  # Добавляем это поле в readonly_fields
+    readonly_fields = ('owner',)
 
     def save_model(self, request, obj, form, change):
         if not change:
@@ -18,8 +18,8 @@ class MovieAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     def owner_email(self, obj):
-        return obj.owner.email if obj.owner else ''  # Возвращаем имя владельца, если он существует, иначе пустую строку
-    owner_email.short_description = 'Owner'  # Определяем отображаемое имя для колонки
+        return obj.owner.email if obj.owner else '' 
+    owner_email.short_description = 'Owner'
 
 admin.site.register(Movie, MovieAdmin)
 

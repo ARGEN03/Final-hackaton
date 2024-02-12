@@ -15,9 +15,9 @@ class GenreViewSet(ModelViewSet):
     search_fields = ['title']
     filterset_fields = ['title']
 
-    @method_decorator(cache_page(60*15))
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+    # @method_decorator(cache_page(60*15))
+    # def list(self, request, *args, **kwargs):
+    #     return super().list(request, *args, **kwargs)
     
 
     def get_permissions(self):
@@ -28,4 +28,4 @@ class GenreViewSet(ModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-
+    
