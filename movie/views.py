@@ -33,10 +33,14 @@ class MovieViewSet(ModelViewSet):
         user = request.user
         
         if request.method == 'POST':
-            serializer = RatingSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(owner=user, movie=movie)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                rating = Rating.objects.get(movie=movie, owner=user)
+                return Response("Рейтинг уже существует", status=status.HTTP_400_BAD_REQUEST)
+            except Rating.DoesNotExist:
+                serializer = RatingSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save(owner=user, movie=movie)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         elif request.method == 'DELETE':
             try:
@@ -55,6 +59,7 @@ class MovieViewSet(ModelViewSet):
                 return Response(serializer.data)
             except Rating.DoesNotExist:
                 return Response("Рейтинг не найден", status=status.HTTP_404_NOT_FOUND)
+
             
     def get_permissions(self):
         if self.request.method == 'GET':
