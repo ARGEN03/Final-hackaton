@@ -26,7 +26,7 @@ def send_email_to_all_users_about_new_movie(movie_id):
         <h1>{movie.title}</h1>
         <p>{movie.content}</p>
         <p>Режиссёр: {movie.director}</p>
-        '<p>Смотреть фильм: {movie.video}</p>' 
+        '<p>Смотреть фильм: http://34.125.237.140/media/{movie.video}</p>' 
     </body>
     </html>
     """
