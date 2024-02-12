@@ -6,7 +6,7 @@ from .serializers import FavoriteSerializer
 # from .permissions import IsOwnerAndAuthenticatedOrReadOnly
 from rest_framework import permissions
 from django.db import IntegrityError
-from django.contrib.auth.models import AnonymousUser
+# from django.contrib.auth.models import AnonymousUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from movie.models import Movie
@@ -34,10 +34,10 @@ class FavoriteListCreateAPIView(generics.ListCreateAPIView):
         except ObjectDoesNotExist:
             return Response({"movie": "Фильм с указанным ID не существует"}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            return super().create(request, *args, **kwargs)
-        except IntegrityError:
-            return Response({"movie": "Такой фильм уже существует"}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                return super().create(request, *args, **kwargs)
+            except IntegrityError:
+                return Response({"movie": "Такой фильм уже существует"}, status=status.HTTP_400_BAD_REQUEST)
 
 class FavoriteRetrieveDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = Favorite.objects.all()

@@ -6,7 +6,7 @@ from .serializers import PlanSerializer
 # from .permissions import IsOwnerAndAuthenticatedOrReadOnly
 from rest_framework import permissions
 from django.db import IntegrityError, transaction
-from django.contrib.auth.models import AnonymousUser
+# from django.contrib.auth.models import AnonymousUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from viewed.models import Viewed

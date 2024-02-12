@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Plan
-from movie.models import Movie
+# from movie.models import Movie
 
 class PlanSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='user.email')

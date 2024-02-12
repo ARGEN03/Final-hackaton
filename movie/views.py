@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rating.serializers import RatingSerializer
 from rest_framework import status
-from .permissions import IsOwnerOrReadOnly
+# from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class StandartResultPagination(PageNumberPagination):
@@ -43,11 +43,11 @@ class MovieViewSet(ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         elif request.method == 'DELETE':
-            try:
-                rating = Rating.objects.get(movie=movie, owner=user)
-                rating.delete()
-                return Response("Рейтинг удален", status=status.HTTP_204_NO_CONTENT)
-            except Rating.DoesNotExist:
+            ratings = Rating.objects.filter(movie=movie, owner=user)
+            if ratings.exists():
+                ratings.delete()
+                return Response("Рейтинг удален", status=status.HTTP_200_OK)
+            else:
                 return Response("Рейтинг не найден", status=status.HTTP_404_NOT_FOUND)
 
         elif request.method == 'PUT':

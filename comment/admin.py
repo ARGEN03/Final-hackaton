@@ -3,7 +3,7 @@ from .models import Comment
 
 # Register your models here.
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('content', 'owner_email')  # Отображение имени пользователя владельца
+    list_display = ('content', 'owner_email') 
     # search_fields = ('title', 'director', 'release_at',)
     # list_filter = ('title', 'director', 'release_at',)
     readonly_fields = ('owner',)  # Добавляем это поле в readonly_fields
@@ -16,5 +16,5 @@ class CommentAdmin(admin.ModelAdmin):
     def owner_email(self, obj):
         return obj.owner.email if obj.owner else ''  # Возвращаем имя владельца, если он существует, иначе пустую строку
     owner_email.short_description = 'Owner'  # Определяем отображаемое имя для колонки
-
+    
 admin.site.register(Comment, CommentAdmin)

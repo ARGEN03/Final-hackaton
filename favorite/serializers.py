@@ -1,9 +1,9 @@
-from django.db import IntegrityError
+# from django.db import IntegrityError
 from rest_framework import serializers
 from .models import Favorite
-from movie.models import Movie
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.exceptions import ValidationError
+# from movie.models import Movie
+# from django.core.exceptions import ObjectDoesNotExist
+# from rest_framework.exceptions import ValidationError
 
 class FavoriteSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')

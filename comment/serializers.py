@@ -3,7 +3,7 @@ from .models import Comment, Like
 from movie.models import Movie
 
 class LikeSerializer(serializers.ModelSerializer):
-    # user = serializers.ReadOnlyField(source='owner.email')
+    user = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = Like
